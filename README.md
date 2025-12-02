@@ -15,12 +15,12 @@ This project demonstrates a real-world pub-sub architecture where:
 
 ```
 ┌──────────────┐      buy-orders        ┌──────────────┐
-│     HDFC     │──────────────────────▶│              │
+│     HDFC     │──────────────────────▶ │              │
 │  (Producer)  │                        │              │
 └──────────────┘                        │              │
                                         │     NSE      │
-┌──────────────┐     sell-offers       │  (Consumer   │
-│    Seller    │──────────────────────▶│      &       │
+┌──────────────┐     sell-offers        │  (Consumer   │
+│    Seller    │──────────────────────▶ │      &       │
 │  (Producer)  │                        │   Producer)  │
 └──────────────┘                        │              │
                                         └───────┬──────┘
@@ -30,8 +30,8 @@ This project demonstrates a real-world pub-sub architecture where:
                         ▼                                    ▼
                 demat-transfers                      cash-movements
                         │                                    │
-                        │         ┌──────────────┐          │
-                        └────────▶│     HDFC     │◀─────────┘
+                        │         ┌──────────────┐           │
+                        └────────▶│     HDFC     │◀──────────┘
                                   │  (Consumer)  │
                                   └──────────────┘
 ```
@@ -58,26 +58,31 @@ pip install -r requirements.txt
 
 ### 3. Start Kafka Locally
 
-## Kafka 4.x runs in KRaft mode (no ZooKeeper)
+- Kafka 4.x runs in KRaft mode (no ZooKeeper)
 
-# This uses the kafka-storage tool that’s designed for KRaft to generate a cluster UUID.
+- This uses the kafka-storage tool that’s designed for KRaft to generate a cluster UUID.
 
-# Format the log directory using that ID
+- Format the log directory using that ID
+```bash
 KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
 echo "$KAFKA_CLUSTER_ID"
+```
 
-# The default config/server.properties already has:
-# * process.roles=broker,controller
-# * node.id=1
-# * controller.quorum.voters=1@localhost:9093
+ The default config/server.properties already has:
+ * process.roles=broker,controller
+ * node.id=1
+ * controller.quorum.voters=1@localhost:9093
 
+```bash
 bin/kafka-storage.sh format \
   -t "$KAFKA_CLUSTER_ID" \
   -c config/server.properties --standalone
+```
 
-# Starting the broker + controller. Leave this terminal open; it’s your broker+controller.
+ Starting the broker + controller. Leave this terminal open; it’s your broker+controller.
+```bash
 bin/kafka-server-start.sh config/server.properties
-
+```
 
 
 ##  Project Structure
