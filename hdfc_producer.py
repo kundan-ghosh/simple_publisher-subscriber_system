@@ -55,7 +55,7 @@ class HDFCProducer:
             record_metadata = future.get(timeout=10)
             
             print(f"\n{'='*60}")
-            print(f"📤 HDFC: Buy order sent successfully!")
+            print(f" HDFC: Buy order sent successfully!")
             print(f"{'='*60}")
             print(f"  Order ID: {order.order_id}")
             print(f"  Stock: {order.stock_symbol}")
@@ -70,7 +70,7 @@ class HDFCProducer:
             return order.order_id
 
         except KafkaError as e:
-            print(f"✗ Failed to send buy order: {e}")
+            print(f" Failed to send buy order: {e}")
             return None
 
     def close(self):
@@ -78,7 +78,7 @@ class HDFCProducer:
         if self.producer:
             self.producer.flush()
             self.producer.close()
-            print("✓ HDFC Producer connection closed")
+            print(" HDFC Producer connection closed")
 
 
 def main():
