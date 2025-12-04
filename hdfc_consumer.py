@@ -54,7 +54,7 @@ class HDFCConsumer:
             transfer = deserialize_message(message.value, DematTransfer)
             
             print(f"\n{'='*60}")
-            print(f"📥 HDFC: Demat transfer received!")
+            print(f" HDFC: Demat transfer received!")
             print(f"{'='*60}")
             print(f"  Transfer ID: {transfer.transfer_id}")
             print(f"  From: {transfer.from_entity}")
@@ -62,7 +62,7 @@ class HDFCConsumer:
             print(f"  Stock: {transfer.stock_symbol}")
             print(f"  Quantity: {transfer.quantity}")
             print(f"  Order ID: {transfer.order_id}")
-            print(f"  ✅ {transfer.quantity} {transfer.stock_symbol} stocks credited to demat account")
+            print(f"   {transfer.quantity} {transfer.stock_symbol} stocks credited to demat account")
             print(f"{'='*60}\n")
             
         except Exception as e:
@@ -74,7 +74,7 @@ class HDFCConsumer:
             movement = deserialize_message(message.value, CashMovement)
             
             print(f"\n{'='*60}")
-            print(f"📥 HDFC: Cash movement received!")
+            print(f" HDFC: Cash movement received!")
             print(f"{'='*60}")
             print(f"  Movement ID: {movement.movement_id}")
             print(f"  From: {movement.from_entity}")
@@ -82,7 +82,7 @@ class HDFCConsumer:
             print(f"  Amount: ₹{movement.amount:,.2f}")
             print(f"  Order ID: {movement.order_id}")
             print(f"  Description: {movement.description}")
-            print(f"  💰 ₹{movement.amount:,.2f} debited from account")
+            print(f"   ₹{movement.amount:,.2f} debited from account")
             print(f"{'='*60}\n")
             
         except Exception as e:
@@ -90,7 +90,7 @@ class HDFCConsumer:
 
     def consume_demat_transfers(self):
         """Consumer thread for demat transfers"""
-        print("🔄 HDFC: Started consuming demat transfers...")
+        print(" HDFC: Started consuming demat transfers...")
         for message in self.demat_consumer:
             if not self.running:
                 break
@@ -98,7 +98,7 @@ class HDFCConsumer:
 
     def consume_cash_movements(self):
         """Consumer thread for cash movements"""
-        print("🔄 HDFC: Started consuming cash movements...")
+        print(" HDFC: Started consuming cash movements...")
         for message in self.cash_consumer:
             if not self.running:
                 break
@@ -116,7 +116,7 @@ class HDFCConsumer:
         cash_thread.start()
         
         print("\n" + "="*60)
-        print("🏦 HDFC Consumer Service Started")
+        print(" HDFC Consumer Service Started")
         print("="*60)
         print("  Listening to:")
         print(f"    - {TOPIC_DEMAT_TRANSFERS}")
@@ -132,7 +132,7 @@ class HDFCConsumer:
             self.demat_consumer.close()
         if self.cash_consumer:
             self.cash_consumer.close()
-        print("\n✓ HDFC Consumer stopped")
+        print("\n HDFC Consumer stopped")
 
 
 def main():
@@ -147,7 +147,7 @@ def main():
         cash_thread.join()
         
     except KeyboardInterrupt:
-        print("\n⚠️  Shutting down HDFC Consumer...")
+        print("\n  Shutting down HDFC Consumer...")
         consumer.stop()
 
 
