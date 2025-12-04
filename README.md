@@ -91,7 +91,6 @@ bin/kafka-server-start.sh config/server.properties
 kafka-stock-trading/
 ├── requirements.txt            # Python dependencies
 ├── models.py                   # Pydantic data models
-├── kafka_config.py             # Kafka configuration & utilities
 ├── hdfc_producer.py            # HDFC buy order producer
 ├── seller_producer.py          # Seller stock availability producer
 ├── nse_service.py              # NSE exchange service (consumer + producer)
