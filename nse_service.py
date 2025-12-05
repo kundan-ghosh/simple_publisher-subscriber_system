@@ -58,10 +58,10 @@ class NSEService:
                 enable_auto_commit=True
             )
             
-            print(f"✓ NSE Service initialized and connected to Kafka")
+            print(f" NSE Service initialized and connected to Kafka")
             
         except KafkaError as e:
-            print(f"✗ Failed to initialize NSE Service: {e}")
+            print(f" Failed to initialize NSE Service: {e}")
             sys.exit(1)
 
     def process_buy_order(self, message):
@@ -71,7 +71,7 @@ class NSEService:
             self.buy_orders[order.order_id] = order
             
             print(f"\n{'='*60}")
-            print(f"📥 NSE: Received buy order")
+            print(f" NSE: Received buy order")
             print(f"{'='*60}")
             print(f"  Order ID: {order.order_id}")
             print(f"  Buyer: {order.buyer}")
@@ -85,7 +85,7 @@ class NSEService:
             self.match_orders(order)
             
         except Exception as e:
-            print(f"✗ Error processing buy order: {e}")
+            print(f" Error processing buy order: {e}")
 
     def process_sell_offer(self, message):
         """Process incoming sell offer"""
@@ -94,7 +94,7 @@ class NSEService:
             self.sell_offers[offer.offer_id] = offer
             
             print(f"\n{'='*60}")
-            print(f"📥 NSE: Received sell offer")
+            print(f" NSE: Received sell offer")
             print(f"{'='*60}")
             print(f"  Offer ID: {offer.offer_id}")
             print(f"  Seller: {offer.seller}")
@@ -129,7 +129,7 @@ class NSEService:
         
         if matching_offer:
             print(f"\n{'='*60}")
-            print(f"🎯 NSE: Order matched successfully!")
+            print(f" NSE: Order matched successfully!")
             print(f"{'='*60}")
             print(f"  Buy Order: {order.order_id}")
             print(f"  Sell Offer: {matching_offer.offer_id}")
@@ -140,7 +140,7 @@ class NSEService:
             # Execute settlement
             self.execute_settlement(order, matching_offer)
         else:
-            print(f"⏳ NSE: Waiting for matching sell offer for order {order.order_id}")
+            print(f" NSE: Waiting for matching sell offer for order {order.order_id}")
 
     def execute_settlement(self, order: BuyOrder, offer: SellOffer):
         """
@@ -166,7 +166,7 @@ class NSEService:
             future.get(timeout=10)
             
             print(f"\n{'='*60}")
-            print(f"📤 NSE: Demat transfer sent")
+            print(f" NSE: Demat transfer sent")
             print(f"{'='*60}")
             print(f"  Transfer ID: {demat_transfer.transfer_id}")
             print(f"  From: {demat_transfer.from_entity}")
@@ -176,7 +176,7 @@ class NSEService:
             print(f"{'='*60}\n")
             
         except KafkaError as e:
-            print(f"✗ Failed to send demat transfer: {e}")
+            print(f" Failed to send demat transfer: {e}")
             return
 
         # 2. Send cash movement (payment to buyer - negative flow from buyer perspective)
@@ -195,7 +195,7 @@ class NSEService:
             future.get(timeout=10)
             
             print(f"\n{'='*60}")
-            print(f"📤 NSE: Cash movement sent")
+            print(f" NSE: Cash movement sent")
             print(f"{'='*60}")
             print(f"  Movement ID: {cash_movement.movement_id}")
             print(f"  From: {cash_movement.from_entity}")
@@ -204,14 +204,14 @@ class NSEService:
             print(f"  Description: {cash_movement.description}")
             print(f"{'='*60}\n")
             
-            print(f"✅ NSE: Settlement completed successfully!\n")
+            print(f" NSE: Settlement completed successfully!\n")
             
         except KafkaError as e:
-            print(f"✗ Failed to send cash movement: {e}")
+            print(f" Failed to send cash movement: {e}")
 
     def consume_buy_orders(self):
         """Consumer thread for buy orders"""
-        print("🔄 NSE: Started consuming buy orders...")
+        print(" NSE: Started consuming buy orders...")
         for message in self.buy_consumer:
             if not self.running:
                 break
@@ -219,7 +219,7 @@ class NSEService:
 
     def consume_sell_offers(self):
         """Consumer thread for sell offers"""
-        print("🔄 NSE: Started consuming sell offers...")
+        print(" NSE: Started consuming sell offers...")
         for message in self.sell_consumer:
             if not self.running:
                 break
@@ -237,7 +237,7 @@ class NSEService:
         sell_thread.start()
         
         print("\n" + "="*60)
-        print("🏛️  NSE Exchange Service Started")
+        print("  NSE Exchange Service Started")
         print("="*60)
         print("  Listening to:")
         print(f"    - {TOPIC_BUY_ORDERS}")
@@ -259,7 +259,7 @@ class NSEService:
             self.buy_consumer.close()
         if self.sell_consumer:
             self.sell_consumer.close()
-        print("\n✓ NSE Service stopped")
+        print("\n NSE Service stopped")
 
 
 def main():
@@ -274,7 +274,7 @@ def main():
         sell_thread.join()
         
     except KeyboardInterrupt:
-        print("\n⚠️  Shutting down NSE Service...")
+        print("\n  Shutting down NSE Service...")
         service.stop()
 
 
