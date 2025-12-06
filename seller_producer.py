@@ -30,9 +30,9 @@ class SellerProducer:
                 bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
                 value_serializer=lambda v: v  # We handle serialization ourselves
             )
-            print(f"✓ {self.seller_name} Producer initialized and connected to Kafka")
+            print(f" {self.seller_name} Producer initialized and connected to Kafka")
         except KafkaError as e:
-            print(f"✗ Failed to initialize {self.seller_name} Producer: {e}")
+            print(f" Failed to initialize {self.seller_name} Producer: {e}")
             sys.exit(1)
 
     def send_sell_offer(self, stock_symbol: str, quantity: int):
@@ -59,7 +59,7 @@ class SellerProducer:
             record_metadata = future.get(timeout=10)
             
             print(f"\n{'='*60}")
-            print(f"📤 {self.seller_name}: Sell offer sent successfully!")
+            print(f" {self.seller_name}: Sell offer sent successfully!")
             print(f"{'='*60}")
             print(f"  Offer ID: {offer.offer_id}")
             print(f"  Stock: {offer.stock_symbol}")
@@ -72,7 +72,7 @@ class SellerProducer:
             return offer.offer_id
 
         except KafkaError as e:
-            print(f"✗ Failed to send sell offer: {e}")
+            print(f" Failed to send sell offer: {e}")
             return None
 
     def close(self):
@@ -80,7 +80,7 @@ class SellerProducer:
         if self.producer:
             self.producer.flush()
             self.producer.close()
-            print(f"✓ {self.seller_name} Producer connection closed")
+            print(f" {self.seller_name} Producer connection closed")
 
 
 def main():
